@@ -28,7 +28,7 @@ def show_dataframe(df,num_records = 5):
     return df.head(5)
 
 def exclude_shoppers(df):
-    return df[df["descr_liv4"] != "SHOPPERS"]
+    return df[df["descr_liv4"] != "SHOPPERS"].copy()
 
 def plot_frequency(df, col, title_prefix, top_n=5):
     freq = df[col].value_counts()
