@@ -30,29 +30,30 @@ def show_dataframe(df,num_records = 5):
 def exclude_shoppers(df):
     return df[df["descr_liv4"] != "SHOPPERS"].copy()
 
+import matplotlib.pyplot as plt
+
 def plot_frequency(df, col, title_prefix, top_n=5):
     freq = df[col].value_counts()
+    
+    top = freq.head(top_n)
+    bottom = freq.tail(top_n)
+
+    # Creazione della figura
+    fig, axes = plt.subplots(1, 2, figsize=(12, 5))  # 1 riga, 2 colonne
 
     # Top N
-    top = freq.head(top_n)
-    plt.figure(figsize=(8,4))
-    ax = top.plot(kind="bar")
-    ax.set_title(f"{title_prefix} - Top {top_n}")
-    ax.set_xlabel(col)
-    ax.set_ylabel("Frequency")
-    ax.tick_params(axis='x', labelrotation=45)
-    plt.tight_layout()
-    plt.show()
+    top.plot(kind="bar", ax=axes[0])
+    axes[0].set_title(f"{title_prefix} - Top {top_n}")
+    axes[0].set_xlabel(col)
+    axes[0].set_ylabel("Frequency")
+    axes[0].tick_params(axis='x', labelrotation=45)
 
     # Bottom N
-    bottom = freq.tail(top_n)
-    plt.figure(figsize=(8,4))
-    ax = bottom.plot(kind="bar")
-    ax.set_title(f"{title_prefix} - Bottom {top_n}")
-    ax.set_xlabel(col)
-    ax.set_ylabel("Frequency")
-    ax.tick_params(axis='x', labelrotation=45)
+    bottom.plot(kind="bar", ax=axes[1])
+    axes[1].set_title(f"{title_prefix} - Bottom {top_n}")
+    axes[1].set_xlabel(col)
+    axes[1].set_ylabel("Frequency")
+    axes[1].tick_params(axis='x', labelrotation=45)
+
     plt.tight_layout()
     plt.show()
-
-
