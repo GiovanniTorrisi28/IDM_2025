@@ -6,7 +6,6 @@ import matplotlib.pyplot as plt
 def load_dataset():
     current_dir = Path(__file__).resolve().parent
     project_root = current_dir.parent
-    print(project_root)
     config_path = project_root / "config.json"
     with open(config_path, "r") as f:
         config = json.load(f)
