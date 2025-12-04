@@ -4,6 +4,9 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 def load_dataset():
+    """
+    Carica il dataset dal path specificato nel file config.json
+    """
     current_dir = Path(__file__).resolve().parent
     project_root = current_dir.parent
     config_path = project_root / "config.json"
@@ -21,17 +24,37 @@ def load_dataset():
     return pd.read_csv(full_dataset_path)
 
 def show_dataframe(df,num_records = 5):
+    """
+    Mostra i primi record di un dataframe
+    
+    :param df: Dataframe da mostrare
+    :param num_records: Numero di record da mostrare
+    """
+
     pd.set_option('display.max_columns', None)
     pd.set_option('display.max_rows', None)
     pd.set_option('display.max_colwidth', None)
     return df.head(5)
 
 def exclude_shoppers(df):
+    """
+    Esclude da un dataframe i record con valore 'SHOPPERS' nella colonna 'descr_liv4'
+    
+    :param df: Dataframe di cui filtrare i record
+    """
+
     return df[df["descr_liv4"] != "SHOPPERS"].copy()
 
-import matplotlib.pyplot as plt
 
 def plot_frequency(df, col, title_prefix, top_n=5):
+    """
+    Disegna gli istogrammi di frequenza per i prodotti più e meno venduti
+    
+    :param df: Dataframe dei dati
+    :param col: Nome della colonna su cui fare i conteggi
+    :param title_prefix: Titolo del grafico
+    :param top_n:  Numero di elementi da mostrare nei Top e Bottom plot.
+    """
     freq = df[col].value_counts()
     
     top = freq.head(top_n)
