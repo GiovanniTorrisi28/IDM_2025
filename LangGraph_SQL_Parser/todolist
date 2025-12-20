@@ -1,0 +1,4 @@
+Creare un file con le credenziali di accesso a clickhouse e al modello
+creare il primo agente, aggiungere al prompt lo schema della tabella e la connessione all'llm
+Una volta finito il codice aggiungere una documentazione docstring
+Aggiornare il file di requirements
