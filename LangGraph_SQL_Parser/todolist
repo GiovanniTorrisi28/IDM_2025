@@ -1,4 +1,5 @@
-Creare un file con le credenziali di accesso a clickhouse e al modello
-creare il primo agente, aggiungere al prompt lo schema della tabella e la connessione all'llm
+mettere su git un file env template
 Una volta finito il codice aggiungere una documentazione docstring
 Aggiornare il file di requirements
+Decidere se inserire un file in cui si definisce il grafo o lasciare tutto nel main
+Inserire la possibilità all'utente di inserire la query che vuole

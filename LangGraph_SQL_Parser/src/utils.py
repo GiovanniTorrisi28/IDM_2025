@@ -14,6 +14,13 @@ def get_table_schema(client, database: str, table: str):
     schema = {row[0]: row[1] for row in result.result_rows}
     return schema
 
+def execute_query(client, query: str, database: str, table: str):
+    """
+    Esegue una query su una tabella del database
+    """
+    result = client.query(query)
+    return result
+
 
 
 # Carica il .env dalla root del progetto

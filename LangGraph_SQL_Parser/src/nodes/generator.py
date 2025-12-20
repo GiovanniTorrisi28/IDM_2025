@@ -1,7 +1,6 @@
 from state import GraphState
-from utils import  call_llm, get_clickhouse_client,get_table_schema
+from utils import  call_llm
 
-# trasformare linguaggio naturale in sql
 def generator(state: GraphState) -> GraphState:
     """
     Legge la domanda dell'utente e genera una query SQL compatibile con ClickHouse.
@@ -24,8 +23,8 @@ def generator(state: GraphState) -> GraphState:
     ]
     
     # chiamata all'llm
-    sql_query = call_llm(messages)
+    #sql_query = call_llm(messages)
    
     return {
-        "sql_query": sql_query
+        "sql_query": "SELECT COUNT(*) FROM eVision.sales_data WHERE anno = 2024"
     }
