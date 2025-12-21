@@ -1,9 +1,0 @@
-eVTranslator.pdf
-venv/
-todolist.txt
-.env
-test/
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
