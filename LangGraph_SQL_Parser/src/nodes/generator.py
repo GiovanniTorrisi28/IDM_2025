@@ -8,6 +8,8 @@ def generator(state: GraphState) -> GraphState:
     """
     user_question = state["user_question"]
     table_schema = state["table_schema"]
+    query_error = state["query_error"]
+    previous_query = state["sql_query"]
 
     prompt = f"""
     Il nome del mio database è 'eVision' e il nome della mia unica tabella è 'sales_data'.
@@ -17,14 +19,30 @@ def generator(state: GraphState) -> GraphState:
     Restituisci solo la query SQL valida senza aggiungere nessun altro commento.
     """
 
+    if query_error is not None:
+        prompt += f"""
+        La query SQL che hai generato in precedenza era:
+
+        {previous_query}
+
+        Questa query ha generato il seguente errore:
+        {query_error}
+
+        Correggi la query SQL tenendo conto dell'errore.
+        """
+
+        prompt += """
+        Restituisci SOLO la query SQL corretta.
+        """
+
     messages = [
-        {"role": "system", "content": "Sei un assistente esperto nel generare query SQL compatibili con ClickHouse. Quando fai una query devi specificare nella clausola FROM il nome del database e il nome della tabella"},
+        {"role": "system", "content": "Sei un assistente esperto nel generare query SQL compatibili con ClickHouse."},
         {"role": "user", "content": prompt}
     ]
     
     # chiamata all'llm
-    #sql_query = call_llm(messages)
-   
+    sql_query = call_llm(messages)
+    # sql_query = "SELECT COUNT(*) FROM eVision.sales_da8ta WHERE anno = 2023"
     return {
-        "sql_query": "SELECT COUNT(*) FROM eVision.sales_data WHERE anno = 2024"
+        "sql_query": sql_query,
     }

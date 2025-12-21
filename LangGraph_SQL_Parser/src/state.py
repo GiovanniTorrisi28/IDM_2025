@@ -5,4 +5,5 @@ class GraphState(TypedDict):
     table_schema: Optional[Dict[str, str]]
     sql_query: Optional[str]
     query_error: Optional[str]
-    query_result: Optional[dict]
+    query_result: Optional[list[dict]]
+    retry_count: int

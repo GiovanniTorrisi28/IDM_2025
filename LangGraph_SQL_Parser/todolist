@@ -3,3 +3,4 @@ Una volta finito il codice aggiungere una documentazione docstring
 Aggiornare il file di requirements
 Decidere se inserire un file in cui si definisce il grafo o lasciare tutto nel main
 Inserire la possibilità all'utente di inserire la query che vuole
+Implementare la logica del nodo router

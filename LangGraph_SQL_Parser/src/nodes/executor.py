@@ -10,14 +10,18 @@ def executor(state: GraphState) -> GraphState:
 
     try:
         result = client.query(query)
+        state["retry_count"] += 1
         # result_rows è una lista di tuple
         # convertiamo in lista di dizionari colonna->valore
         columns = result.column_names
-        rows = [dict(zip(columns, r)) for r in result.result_rows]
-
-        return {"query_result": rows, "query_error": None}
-
+        state["query_result"] = [dict(zip(columns, r)) for r in result.result_rows]
+        state["query_error"] = None
+        return state
+    
     except Exception as e:
         print(f"[Validator] Errore esecuzione query: {e}")
-        return {"query_result": None, "query_error": str(e)}
+        state["retry_count"] += 1
+        state["query_result"] = None
+        state["query_error"] = str(e)
+        return state
     

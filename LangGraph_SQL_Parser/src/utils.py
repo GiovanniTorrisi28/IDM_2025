@@ -39,7 +39,7 @@ def get_clickhouse_client():
         port=port,
         username=user,
         password=password,
-        database=database
+       # database=database
     )
 
     return client
