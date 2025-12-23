@@ -1,8 +1,4 @@
 mettere su git un file env template
 Una volta finito il codice aggiungere una documentazione docstring
-Aggiornare il file di requirements
-Decidere se inserire un file in cui si definisce il grafo o lasciare tutto nel main
 Inserire la possibilità all'utente di inserire la query che vuole
-Capire perchè la riga 14 e 20 nell'executor sono necessarie
-Sistemare l'interfaccia grafica
 Provare ad ottimizzare il caricamento dello schema per farlo una volta sola (eliminare il nodo e farlo fuori dal grafo) verificare pro e contro ?

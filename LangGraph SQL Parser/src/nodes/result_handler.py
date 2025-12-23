@@ -17,15 +17,15 @@ def result_handler(state: GraphState) -> GraphState:
             [dict(zip(columns, r)) for r in result.result_rows]
         )
         print("query ok\n", state["query_result"])
-        comment = call_llm(get_comment_prompts(state), 0.5)
-        print("commento =", comment)
+        state["final_comment"] = call_llm(get_comment_prompts(state), 0.5)
+        print("commento = ",state["final_comment"])
 
         return state
     else:  # query errata
         print("la query non si può fare, count = ", state["retry_count"])
 
-        comment = call_llm(get_comment_prompts(state), 0.5)
-        print("commento =", comment)
+        state["final_comment"] = call_llm(get_comment_prompts(state), 0.5)
+        print("commento =", state["final_comment"])
 
         return state
 

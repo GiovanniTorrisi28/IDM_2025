@@ -27,7 +27,7 @@ if st.button("Esegui Query", type="primary", use_container_width=True):
                 "query_result": None,
                 "query_error": None,
                 "retry_count": 0,
-                "dataframe": None,
+                "final_comment": None,
             }
 
             # Esegui il grafo
@@ -71,12 +71,13 @@ if st.button("Esegui Query", type="primary", use_container_width=True):
                     )
             else:
                 # Errore
-                st.error("❌ Errore nell'esecuzione della query")
+                st.error("❌ Errore nell'esecuzione della query.")
 
                 with st.expander("🔍 Dettagli errore", expanded=True):
                     st.code(final_state["query_error"], language="text")
 
-                if final_state["retry_count"] >= 3:
-                    st.error("🚫 Numero massimo di tentativi di correzione raggiunto")
+                # if final_state["retry_count"] >= 3:
+                  #  st.error("🚫 Numero massimo di tentativi di correzione raggiunto")
+            st.info(final_state["final_comment"])
     else:
         st.warning("⚠️ Inserisci una domanda prima di procedere")

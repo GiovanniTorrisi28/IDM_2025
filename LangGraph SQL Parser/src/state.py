@@ -8,4 +8,4 @@ class GraphState(TypedDict):
     query_error: Optional[str]
     query_result: Optional[any]  # Optional[list[dict]]
     retry_count: int
-    final_response: Optional[str]
+    final_comment: Optional[str]

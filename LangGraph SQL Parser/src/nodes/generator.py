@@ -28,7 +28,7 @@ def generator(state: GraphState) -> GraphState:
             """
 
     sql_query = call_llm(get_query_messages(prompt, table_schema))
-    # sql_query = "SELECT COUNT(*) FROM eVision.sales_dat9a WHERE anno = 2023"
+    #sql_query = "SELECT COUNT(*) FROM eVision.sales_dat9a WHERE anno = 2023"
     return {
         "sql_query": sql_query,
     }
