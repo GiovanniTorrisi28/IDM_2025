@@ -10,4 +10,5 @@ def router(state: GraphState) -> Literal["retry", "end"]:
     elif retry_count < 3:
         # errore: si riprova a rigenerare la query
         return "retry"
+    # si è raggiunto il numero massimo di correzioni: si può terminare
     return "end"

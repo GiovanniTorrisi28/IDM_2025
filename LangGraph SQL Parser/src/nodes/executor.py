@@ -19,5 +19,6 @@ def executor(state: GraphState) -> GraphState:
         # query con errori di sintassi
         state["query_result"] = None
         state["query_error"] = str(e)
+        state['retry_count'] += 1
         return state
     

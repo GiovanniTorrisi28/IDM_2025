@@ -24,15 +24,15 @@ def build_graph():
     graph.add_edge("load_user_question", "load_schema")
     graph.add_edge("load_schema", "generator")
     graph.add_edge("generator", "executor")
-    graph.add_edge("executor","result_handler")
+    # graph.add_edge("executor","result_handler")
    
     # Arco CONDIZIONALE 
     graph.add_conditional_edges(
-     "result_handler",  # Da quale nodo parte
+     "executor",  # Da quale nodo parte
       router,  # Funzione che decide il percorso
      {
         "retry": "generator",  # Se ritorna "continue", torna a nodo_1
-        "end": END  # Se ritorna "end", termina
+        "end": "result_handler"  # Se ritorna "end", termina
     }
     )
 

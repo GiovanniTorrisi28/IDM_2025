@@ -11,11 +11,11 @@ def result_handler(state: GraphState) -> GraphState:
         result = state['query_result']
         columns = result.column_names
         state["query_result"] = [dict(zip(columns, r)) for r in result.result_rows]
+        print("query ok\n",pd.DataFrame(state['query_result']))
         
         return state
     else:
-        # query errata: tiene traccia del numero di errori
-        state['retry_count'] += 1
-        print("handler, count =",state['retry_count'])
+        # query errata
+        print("la query non si può fare, count = ",state['retry_count'])
         return state
     
