@@ -5,6 +5,4 @@ Decidere se inserire un file in cui si definisce il grafo o lasciare tutto nel m
 Inserire la possibilità all'utente di inserire la query che vuole
 Capire perchè la riga 14 e 20 nell'executor sono necessarie
 Sistemare l'interfaccia grafica
-Aggiungere una elaborazione llm nel terzo agente
-Provare ad ottimizzare il caricamento dello schema per farlo una volta sola (eliminare il nodo e farlo fuori dal grafo)
-Capire come si allinea per bene il codice e con quale tool
+Provare ad ottimizzare il caricamento dello schema per farlo una volta sola (eliminare il nodo e farlo fuori dal grafo) verificare pro e contro ?

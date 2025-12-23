@@ -1,6 +1,6 @@
 eVTranslator.pdf
 venv/
-todolist.txt
+todolist
 .env
 test/
 __pycache__/
