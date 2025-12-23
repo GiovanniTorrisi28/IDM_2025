@@ -1,6 +1,7 @@
 from typing import Literal
 from state import GraphState
 
+
 def router(state: GraphState) -> Literal["retry", "end"]:
     retry_count = state["retry_count"]
 

@@ -7,8 +7,9 @@ from nodes.executor import executor
 from nodes.router import router
 from nodes.result_handler import result_handler
 
+
 def build_graph():
-    graph = StateGraph(GraphState,read_next_node=True)
+    graph = StateGraph(GraphState, read_next_node=True)
 
     # aggiungi nodi
     graph.add_node("load_user_question", load_user_question)
@@ -25,15 +26,15 @@ def build_graph():
     graph.add_edge("load_schema", "generator")
     graph.add_edge("generator", "executor")
     # graph.add_edge("executor","result_handler")
-   
-    # Arco CONDIZIONALE 
+
+    # Arco CONDIZIONALE
     graph.add_conditional_edges(
-     "executor",  # Da quale nodo parte
-      router,  # Funzione che decide il percorso
-     {
-        "retry": "generator",  # Se ritorna "continue", torna a nodo_1
-        "end": "result_handler"  # Se ritorna "end", termina
-    }
+        "executor",  # Da quale nodo parte
+        router,  # Funzione che decide il percorso
+        {
+            "retry": "generator",  # Se ritorna "continue", torna a nodo_1
+            "end": "result_handler",  # Se ritorna "end", termina
+        },
     )
 
     return graph.compile()

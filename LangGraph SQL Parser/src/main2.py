@@ -9,7 +9,7 @@ initial_state: GraphState = {
     "query_result": None,
     "query_error": None,
     "retry_count": 0,
-    "final_response": None
+    "final_response": None,
 }
 
 app = build_graph()
