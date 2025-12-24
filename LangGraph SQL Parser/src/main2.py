@@ -3,13 +3,14 @@ from state import GraphState
 import pandas as pd
 
 initial_state: GraphState = {
-    "user_question": "Quanti prodotti sono stati venduti nell'anno 2023 ?",
+    "user_question": "Quale è il supermercato che ha avuto più incassi nel 2024?",
     "table_schema": None,
     "sql_query": None,
     "query_result": None,
     "query_error": None,
     "retry_count": 0,
     "final_comment": None,
+     "explanation": None
 }
 
 app = build_graph()

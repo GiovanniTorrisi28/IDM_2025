@@ -1,6 +1,6 @@
 from state import GraphState
 from utils import get_clickhouse_client
-
+import pandas as pd
 
 def executor(state: GraphState) -> GraphState:
     """

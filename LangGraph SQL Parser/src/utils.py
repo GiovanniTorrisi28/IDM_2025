@@ -15,14 +15,6 @@ def get_table_schema(client, database: str, table: str):
     return schema
 
 
-def execute_query(client, query: str, database: str, table: str):
-    """
-    Esegue una query su una tabella del database
-    """
-    result = client.query(query)
-    return result
-
-
 # Carica il .env dalla root del progetto
 load_dotenv(dotenv_path=Path(__file__).resolve().parent.parent / ".env")
 
@@ -67,6 +59,7 @@ def get_table_metadata():
         "colonne": {
             "id_sc": "id dello scontrino",
             "pv": "id del supermercato",
+            "anno": "anno in cui è stato acquistato il prodotto",
             "data": "data dello scontrino nel formato anno-mese-giorno",
             "cassa": "id della cassa del supermercato",
             "cassiere": "id del dipendente cassiere",
@@ -86,7 +79,7 @@ def get_table_metadata():
             "r_sconto_rip": "sconto ripartito della riga",
             "r_tipo_riga": "tipo della riga",
             "cod_prod": "codice del prodotto acquistato",
-            "descr_prod": "descrizione del prodotto acquistato",
+            "descr_prod": "questo campo è diviso in due parti: prima si ripete il codice del prodotto e poi c'è la descrizione del prodotto acquistato",
             "cod_forn": "codice del fornitore del prodotto",
             "descr_forn": "descrizione del fornitore del prodotto",
             "liv1": "codice di livello 1 della GDO del prodotto acquistato",

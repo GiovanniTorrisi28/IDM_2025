@@ -9,3 +9,5 @@ class GraphState(TypedDict):
     query_result: Optional[any]  # Optional[list[dict]]
     retry_count: int
     final_comment: Optional[str]
+    is_relevant: bool
+    explanation: Optional[str]

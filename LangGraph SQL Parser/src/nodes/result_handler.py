@@ -10,8 +10,12 @@ def result_handler(state: GraphState) -> GraphState:
 
     result = state["query_result"]
     error = state["query_error"]
-
-    if error is None:  # query ok
+    is_relevant = state["is_relevant"]
+    
+    if is_relevant == False: # la richiesta non è pertinente, si può terminare
+        return state
+    
+    elif error is None:  # query ok
         columns = result.column_names
         state["query_result"] = pd.DataFrame(
             [dict(zip(columns, r)) for r in result.result_rows]
