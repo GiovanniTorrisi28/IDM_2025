@@ -1,6 +1,5 @@
 import streamlit as st
 from graph import build_graph
-import pandas as pd
 
 from state import GraphState
 
@@ -22,7 +21,7 @@ if st.button("Esegui Query", type="primary", use_container_width=True):
     if user_question:
         with st.spinner("Elaborazione in corso..."):
             # Stato iniziale
-            initial_state: GraphState  = {
+            initial_state: GraphState = {
                 "user_question": user_question,
                 "table_schema": None,
                 "sql_query": "",
@@ -39,8 +38,8 @@ if st.button("Esegui Query", type="primary", use_container_width=True):
 
             # Mostra SQL generato
             if final_state["is_relevant"] == True:
-              st.subheader("📝 Query SQL generata")
-              st.code(final_state["sql_query"], language="sql")
+                st.subheader("📝 Query SQL generata")
+                st.code(final_state["sql_query"], language="sql")
 
             # Mostra numero tentativi se > 1
             if final_state["retry_count"] >= 1 and final_state["query_error"] is None:
@@ -84,8 +83,8 @@ if st.button("Esegui Query", type="primary", use_container_width=True):
                     st.code(final_state["query_error"], language="text")
 
                 # if final_state["retry_count"] >= 3:
-                  #  st.error("🚫 Numero massimo di tentativi di correzione raggiunto")
+                #  st.error("🚫 Numero massimo di tentativi di correzione raggiunto")
             if final_state["is_relevant"] is True:
-               st.info(final_state["final_comment"])
+                st.info(final_state["final_comment"])
     else:
         st.warning("⚠️ Inserisci una domanda prima di procedere")

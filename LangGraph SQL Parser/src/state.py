@@ -2,6 +2,10 @@ from typing import TypedDict, Optional, Dict
 
 
 class GraphState(TypedDict):
+    """
+    Classe che definisce lo stato dell'automa a stati finiti di LangGraph.
+    """
+
     user_question: Optional[str]
     table_schema: Optional[Dict[str, str]]
     sql_query: Optional[str]
@@ -10,4 +14,3 @@ class GraphState(TypedDict):
     retry_count: int
     final_comment: Optional[str]
     is_relevant: bool
-    explanation: Optional[str]

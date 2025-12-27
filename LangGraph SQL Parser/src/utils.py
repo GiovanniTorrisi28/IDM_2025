@@ -20,6 +20,10 @@ load_dotenv(dotenv_path=Path(__file__).resolve().parent.parent / ".env")
 
 
 def get_clickhouse_client():
+    """
+    Funzione che restituisce un client ClickHouse
+    """
+
     host = os.getenv("CLICKHOUSE_HOST")
     port = int(os.getenv("CLICKHOUSE_PORT"))
     user = os.getenv("CLICKHOUSE_USER")
@@ -39,7 +43,7 @@ def get_clickhouse_client():
 
 def call_llm(messages, temperature: float = 0.2) -> str:
     """
-    Chiama l'LLM e restituisce solo il contenuto testuale della risposta.
+    Funzione che chiama l'LLM e restituisce solo il contenuto testuale della risposta.
     """
 
     client = OpenAI(
@@ -54,6 +58,11 @@ def call_llm(messages, temperature: float = 0.2) -> str:
 
 
 def get_table_metadata():
+    """
+    Funzione che definisce e restituisce una struttura dati dizionario
+    che contiene il nome delle colonne e il loro significato semantico.
+    """
+
     table_metadata = {
         "nome_tabella": "sales_data",
         "colonne": {
@@ -100,10 +109,3 @@ def get_table_metadata():
         },
     }
     return table_metadata
-
-
-def format_metadata(dizionario):
-    riga = []
-    for colonna, spiegazione in dizionario.items():
-        riga.append(f"- {colonna}: {spiegazione}")
-    return "\n".join(riga)

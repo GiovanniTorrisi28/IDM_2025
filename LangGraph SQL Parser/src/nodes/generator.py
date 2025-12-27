@@ -1,5 +1,5 @@
 from state import GraphState
-from utils import call_llm, format_metadata, get_table_metadata
+from utils import call_llm, get_table_metadata
 
 
 def generator(state: GraphState) -> GraphState:
@@ -29,7 +29,7 @@ def generator(state: GraphState) -> GraphState:
 
     sql_query = call_llm(get_query_messages(prompt, table_schema))
     # sql_query = """SELECT pv, SUM(r_importo_lordo) AS incassi FROM eVision.sales_data WHERE anno = 2024 GROUP BY pv ORDER BY incassi DESC LIMIT 1"""
-    print("query generata = ",sql_query)
+    print("query generata = ", sql_query)
     return {
         "sql_query": sql_query,
     }
@@ -44,6 +44,7 @@ def get_query_messages(prompt, table_schema):
             Il database si chiama eVision e la tabella si chiama sales_data.
             La tabella contiene dati di vendita di vari supermercati, in particolare ogni riga corrisponde ad un prodotto scansionato alla cassa.
             Lo schema della tabella di riferimento è {table_schema} e a seguire ecco una spiegazione del significato delle colonne: {get_table_metadata()}.
+            Le colonne di tipo stringa hanno valori esclusivamente scritti in maiuscolo, tieni conto di questa forma quando formuli la query.
             Usa di default la direttiva sql LIMIT 500 a meno che l'utente non specifichi che vuole un numero inferiore di risultati.
             """,
         },
