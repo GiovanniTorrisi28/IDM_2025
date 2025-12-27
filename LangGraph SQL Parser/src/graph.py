@@ -4,8 +4,8 @@ from nodes.guard import guard
 from nodes.load_schema import load_schema
 from nodes.generator import generator
 from nodes.executor import executor
-from nodes.router import router
-from nodes.router2 import router2
+from routing.choose_if_retry import choose_if_retry
+from routing.choose_if_continue import choose_if_continue
 from nodes.result_handler import result_handler
 
 
@@ -32,7 +32,7 @@ def build_graph():
     # Arco CONDIZIONALE
     graph.add_conditional_edges(
         "guard",  # Da quale nodo parte
-        router2,  # Funzione che decide il percorso
+        choose_if_continue,  # Funzione che decide il percorso
         {
             "continue": "load_schema",  # Se ritorna "retry", torna al nodo generatore
             "end": "result_handler",  # Se ritorna "end", vai al nodo handler per elaborare il risultato e terminare
@@ -44,7 +44,7 @@ def build_graph():
     # Arco CONDIZIONALE
     graph.add_conditional_edges(
         "executor",  # Da quale nodo parte
-        router,  # Funzione che decide il percorso
+        choose_if_retry,  # Funzione che decide il percorso
         {
             "retry": "generator",  # Se ritorna "retry", torna al nodo generatore
             "end": "result_handler",  # Se ritorna "end", vai al nodo handler per elaborare il risultato e terminare

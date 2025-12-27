@@ -2,7 +2,7 @@ from typing import Literal
 from state import GraphState
 
 
-def router2(state: GraphState) -> Literal["continue", "end"]:
+def choose_if_continue(state: GraphState) -> Literal["continue", "end"]:
     """
     Funzione di decisione per instradare i dati nel grafo.
     Si decide il percorso tra : guard -> generator o guard -> result_handler

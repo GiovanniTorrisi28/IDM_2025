@@ -2,7 +2,7 @@ from typing import Literal
 from state import GraphState
 
 
-def router(state: GraphState) -> Literal["retry", "end"]:
+def choose_if_retry(state: GraphState) -> Literal["retry", "end"]:
     """
     Funzione di decisione per instradare i dati nel grafo.
     Si decide il percorso tra : executor -> result_handler o executor -> generator
