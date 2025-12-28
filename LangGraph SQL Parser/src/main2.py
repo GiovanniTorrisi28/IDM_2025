@@ -3,7 +3,7 @@ from state import GraphState
 import pandas as pd
 
 initial_state: GraphState = {
-    "user_question": "Quale è il supermercato che ha avuto più incassi nel 2024?",
+    "user_question": "Voglio fare una prova",
     "table_schema": None,
     "sql_query": None,
     "query_result": None,

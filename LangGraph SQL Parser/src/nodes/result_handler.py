@@ -5,16 +5,16 @@ from utils import call_llm, get_table_metadata
 
 def result_handler(state: GraphState) -> GraphState:
     """
-    Gestisce il risultato restituito dall'agente executor
+    Gestisce il risultato restituito dall'agente executor o dall'agente guard.
     """
 
     result = state["query_result"]
     error = state["query_error"]
     is_relevant = state["is_relevant"]
-
-    if is_relevant == False:  # la richiesta non è pertinente, si può terminare
+    
+    if is_relevant == False: # la richiesta non è pertinente, si può terminare
         return state
-
+    
     elif error is None:  # query ok
         columns = result.column_names
         state["query_result"] = pd.DataFrame(
@@ -22,7 +22,7 @@ def result_handler(state: GraphState) -> GraphState:
         )
         print("query ok\n", state["query_result"])
         state["final_comment"] = call_llm(get_comment_prompts(state), 0.5)
-        print("commento = ", state["final_comment"])
+        print("commento = ",state["final_comment"])
 
         return state
     else:  # query errata

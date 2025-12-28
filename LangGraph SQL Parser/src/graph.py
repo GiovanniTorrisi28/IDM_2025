@@ -35,7 +35,7 @@ def build_graph():
         choose_if_continue,  # Funzione che decide il percorso
         {
             "continue": "load_schema",  # Se ritorna "retry", torna al nodo generatore
-            "end": "result_handler",  # Se ritorna "end", vai al nodo handler per elaborare il risultato e terminare
+            "stop": END,  # Se ritorna "stop", l'esecuzione può terminare
         },
     )
     graph.add_edge("load_schema", "generator")

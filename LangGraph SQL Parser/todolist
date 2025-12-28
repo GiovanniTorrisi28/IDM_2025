@@ -2,5 +2,5 @@ Una volta finito il codice aggiungere una documentazione docstring
 Provare ad ottimizzare il caricamento dello schema per farlo una volta sola (eliminare il nodo e farlo fuori dal grafo) verificare pro e contro ?
 Scrivere readme e relazione
 Capire cosa volesse sviluppato il docente nella parte opzionale
-Specificare nel prompt del generatore che le colonne stringa hanno valori maiuscoli (quindi magari ha senso una ricerca case insensitive)
 Provare a ordinare meglio il codice di streamlit
+Modificare il nome del progetto e ricreare l'env. Aggiornare l'url con il nuovo nome del readme
