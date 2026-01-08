@@ -7,7 +7,7 @@ from nodes.executor import executor
 from routing.choose_if_retry import choose_if_retry
 from routing.choose_if_continue import choose_if_continue
 from nodes.result_handler import result_handler
-
+from nodes.semantic_search import semantic_search
 
 def build_graph():
     """
@@ -18,6 +18,7 @@ def build_graph():
 
     # aggiungi nodi
     graph.add_node("guard", guard)
+    graph.add_node("semantic_search",semantic_search)
     graph.add_node("load_schema", load_schema)
     graph.add_node("generator", generator)
     graph.add_node("executor", executor)
@@ -25,19 +26,23 @@ def build_graph():
 
     # entry point
     graph.set_entry_point("guard")
-    # graph.set_entry_point("load_schema")
+    #graph.set_entry_point("load_schema")
+    #graph.set_entry_point("semantic_search")
 
     # collegamenti
     # graph.add_edge("load_user_question", "load_schema")
     # Arco CONDIZIONALE
+    
     graph.add_conditional_edges(
         "guard",  # Da quale nodo parte
         choose_if_continue,  # Funzione che decide il percorso
         {
-            "continue": "load_schema",  # Se ritorna "retry", torna al nodo generatore
+            "continue": "semantic_search",  # Se ritorna "retry", torna al nodo generatore
             "stop": END,  # Se ritorna "stop", l'esecuzione può terminare
         },
     )
+    
+    graph.add_edge("semantic_search","load_schema")
     graph.add_edge("load_schema", "generator")
     graph.add_edge("generator", "executor")
 

@@ -14,3 +14,4 @@ class GraphState(TypedDict):
     retry_count: int
     final_comment: Optional[str]
     is_relevant: bool
+    relevant_items: list
