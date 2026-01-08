@@ -75,7 +75,7 @@ with weaviate.connect_to_custom(
 
     print("Weaviate ready:", client.is_ready())
 
-    # Ricrei la collection da zero
+    # Ricrea la collection da zero
     client.collections.delete(COLLECTION_NAME)
 
     if not client.collections.exists(COLLECTION_NAME):
