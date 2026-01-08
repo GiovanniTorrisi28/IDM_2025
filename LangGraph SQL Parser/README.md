@@ -12,8 +12,8 @@ Per eseguire correttamente il progetto è necessario disporre dei seguenti requi
 
 - **Python** installato sul sistema
 - **Credenziali di accesso** al database ClickHouse (host, porta, username, password)
+- **Credenziali di accesso** al database Weaviate (host, porta, grpc, api key)
 - **Api Key** per l'accesso a un Large Language Model (LLM)
-
 ------------------------
 ## Istruzioni per l'esecuzione
 

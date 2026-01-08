@@ -2,5 +2,6 @@ Modificare il nome del progetto e ricreare l'env. Aggiornare l'url con il nuovo 
 Verificare se nella funzione call llm si puo ottimizzare qualcosa
 Valutare se separare in due agenti diversi semantic search
 Valutare se inserire una appendice nella relazione contenente la struttura delle directory
-Modificare file readme per includere i nuovi file e le nuove features
+
 Aggiungere alla relazione il capitolo requisiti tecnici 
+Fare slide
