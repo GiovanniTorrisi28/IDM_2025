@@ -29,7 +29,6 @@ def generator(state: GraphState) -> GraphState:
         },
         {"role": "user", "content": f"{user_question}"},
     ]
-    
 
     if query_error is not None:
         messages.extend(
@@ -47,7 +46,7 @@ def generator(state: GraphState) -> GraphState:
             ]
         )
 
-    sql_query = call_llm(messages,0)
+    sql_query = call_llm(messages, 0)
 
     print("query generata =", sql_query)
     return {"sql_query": sql_query}

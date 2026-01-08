@@ -11,7 +11,7 @@ initial_state: GraphState = {
     "retry_count": 0,
     "final_comment": None,
     "is_relevant": None,
-    "relevant_items": []
+    "relevant_items": [],
 }
 
 app = build_graph()

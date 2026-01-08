@@ -14,5 +14,6 @@ def choose_if_continue(state: GraphState) -> Literal["continue", "stop"]:
     if is_relevant == True:  # la domanda è coerente, si può continuare
         return "continue"
     else:
-        return "stop"  # la domanda non è coerente, si può terminare e gestire il risultato
-        
+        return (
+            "stop"  # la domanda non è coerente, si può terminare e gestire il risultato
+        )

@@ -10,7 +10,7 @@ def result_handler(state: GraphState) -> GraphState:
 
     result = state["query_result"]
     error = state["query_error"]
-    
+
     if error is None:  # query ok
         columns = result.column_names
         state["query_result"] = pd.DataFrame(

@@ -17,10 +17,10 @@ EMBED_MODEL = os.getenv("EMBEDDING_MODEL_NAME")
 OLLAMA_URL = os.getenv("EMBEDDING_MODEL_URL")
 
 BATCH_SIZE = 300
-NUM_WORKERS = 10   
+NUM_WORKERS = 10
 
 CSV_PATH = "collection_prodotti.csv"
-COLLECTION_NAME = "MyCollection" # una volta creata la collezione, assegnare questo nome alla variabile COLLECTION_NAME_WEAVIATE
+COLLECTION_NAME = "MyCollection"  # una volta creata la collezione, assegnare questo nome alla variabile COLLECTION_NAME_WEAVIATE
 
 WEAVIATE_HOST = os.getenv("HTTP_HOST_WEAVIATE")
 WEAVIATE_HTTP_PORT = os.getenv("HTTP_PORT_WEAVIATE")
@@ -29,14 +29,13 @@ WEAVIATE_API_KEY = os.getenv("API_KEY_WEAVIATE")
 
 # --------------- EMBEDDING ---------------
 
+
 def embed(text: str):
-    payload = {
-        "model": EMBED_MODEL,
-        "prompt": text
-    }
+    payload = {"model": EMBED_MODEL, "prompt": text}
     res = requests.post(OLLAMA_URL, json=payload)
     res.raise_for_status()
     return res.json()["embedding"]
+
 
 def build_embedding_text(obj: dict) -> str:
     """
@@ -48,7 +47,7 @@ def build_embedding_text(obj: dict) -> str:
         obj.get("descr_liv1", ""),
         obj.get("descr_liv2", ""),
         obj.get("descr_liv3", ""),
-        obj.get("descr_liv4", "")
+        obj.get("descr_liv4", ""),
     ]
 
     # Rimuove campi vuoti / None, tiene solo stringhe
@@ -64,13 +63,13 @@ def build_embedding_text(obj: dict) -> str:
 # --------------- MAIN PIPELINE ---------------
 
 with weaviate.connect_to_custom(
-   http_host=WEAVIATE_HOST,
-   http_port=WEAVIATE_HTTP_PORT,
-   http_secure=False,
-   grpc_host=WEAVIATE_HOST,
-   grpc_port=WEAVIATE_GRPC_PORT,
-   grpc_secure=False,
-   auth_credentials=Auth.api_key(WEAVIATE_API_KEY),
+    http_host=WEAVIATE_HOST,
+    http_port=WEAVIATE_HTTP_PORT,
+    http_secure=False,
+    grpc_host=WEAVIATE_HOST,
+    grpc_port=WEAVIATE_GRPC_PORT,
+    grpc_secure=False,
+    auth_credentials=Auth.api_key(WEAVIATE_API_KEY),
 ) as client:
 
     print("Weaviate ready:", client.is_ready())
@@ -80,10 +79,7 @@ with weaviate.connect_to_custom(
 
     if not client.collections.exists(COLLECTION_NAME):
         print(f"Creating collection {COLLECTION_NAME}...")
-        client.collections.create(
-            name=COLLECTION_NAME,
-            vectorizer_config=None 
-        )
+        client.collections.create(name=COLLECTION_NAME, vectorizer_config=None)
     else:
         print(f"Collection {COLLECTION_NAME} already exists")
 
@@ -94,23 +90,25 @@ with weaviate.connect_to_custom(
     df = pd.read_csv(CSV_PATH, sep=";")
 
     # Trasforma i dati in un dizionario. Qui si specificano i campi degli oggetti della collezione
-    columns_objects = df[[
-        "cod_prod",
-        "descr_prod",
-        "descr_liv1",
-        "descr_liv2",
-        "descr_liv3",
-        "descr_liv4",
-    ]].to_dict(orient="records")
+    columns_objects = df[
+        [
+            "cod_prod",
+            "descr_prod",
+            "descr_liv1",
+            "descr_liv2",
+            "descr_liv3",
+            "descr_liv4",
+        ]
+    ].to_dict(orient="records")
 
     total_start = time.time()
 
     for i in range(0, len(columns_objects), BATCH_SIZE):
-        chunk = columns_objects[i:i + BATCH_SIZE]
+        chunk = columns_objects[i : i + BATCH_SIZE]
         batch_num = i // BATCH_SIZE + 1
         print(f"\n=== Batch {batch_num} ({len(chunk)} oggetti) ===")
 
-        # Preparazione dei testi per l'embedding 
+        # Preparazione dei testi per l'embedding
         t0 = time.time()
         testi = [build_embedding_text(obj) for obj in chunk]
         prep_time = time.time() - t0
@@ -126,10 +124,7 @@ with weaviate.connect_to_custom(
         # Costruzione oggetto da inserire su weaviate
         t0 = time.time()
         objects_with_vectors = [
-            DataObject(
-                properties=obj,
-                vector=vettore
-            )
+            DataObject(properties=obj, vector=vettore)
             for obj, vettore in zip(chunk, vettori)
         ]
         build_obj_time = time.time() - t0

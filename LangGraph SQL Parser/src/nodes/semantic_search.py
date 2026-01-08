@@ -10,17 +10,9 @@ from dotenv import load_dotenv
 import os
 from pathlib import Path
 
-"""
-with weaviate.connect_to_custom(
-        http_host="localhost",
-        http_port=8080,
-        http_secure=False,
-        grpc_host="localhost",
-        grpc_port=50051,
-        grpc_secure=False,
-    ) as client:
-"""
+
 load_dotenv(dotenv_path=Path(__file__).resolve().parent.parent.parent / ".env")
+
 
 def semantic_search(state: GraphState) -> GraphState:
 
@@ -38,26 +30,25 @@ def semantic_search(state: GraphState) -> GraphState:
     ) as client:
         print("Weaviate ready:", client.is_ready())
 
-        # 3Recupero della collezione
+        # Recupero della collezione
         collection = client.collections.get(os.getenv("COLLECTION_NAME_WEAVIATE"))
 
         # chiamata all'llm per la riformulazione della richiesta utente
         messages = [
-                {
-                    "role": "system",
-                    "content": f"""
+            {
+                "role": "system",
+                "content": f"""
             Sei un assistente specializzato nello riscrivere domande testuali. L'utente farà una richiesta che riguarda supermercati, prodotti alimentari e in generale cose che riguardano i supermercati e relativi dati di vendita.
             Il tuo compito è disambiguare il più possibile il concetto a cui si riferisce l'utente, in modo che un llm successivo possa generare una query appropriata.
             Restituisci solo la nuova richiesta testuale senza aggiungere nessun altro commento.
-            """
-                },
-                {"role": "user", "content": f"""{user_question}"""},
-            ]
+            """,
+            },
+            {"role": "user", "content": f"""{user_question}"""},
+        ]
 
-        user_question_riformulata = call_llm(messages,0)
-        print("Riformulazione = ",user_question_riformulata)
-        
-        
+        user_question_riformulata = call_llm(messages, 0)
+        print("Riformulazione = ", user_question_riformulata)
+
         messages = [
             {
                 "role": "system",
@@ -72,35 +63,38 @@ def semantic_search(state: GraphState) -> GraphState:
         La risposta deve essere su una sola riga. Devi specificare i sinonimi uno dopo l'altro separati da virgola.
         Se la domanda non contiene prodotti, categorie di cose o prodotti, alimenti, e in generale cose trovabili nei supermercati allora devi rispondere con una stringa vuota "".
         Non inventare prodotti non presenti nella domanda.
-        """
+        """,
             },
             {"role": "user", "content": user_question_riformulata},
         ]
 
-        sinonimi = call_llm(messages,0)
-        print("sinonimi = ",sinonimi)
+        sinonimi = call_llm(messages, 0)
+        print("sinonimi = ", sinonimi)
         if len(sinonimi) > 2:
             client.connect()
-            filters = Filter.all_of([
-                Filter.by_property("descr_prod").not_equal("Prodotto non in anagrafica"),
-                Filter.by_property("descr_liv1").not_equal("Categoria non in anagrafica")
-            ])
+            filters = Filter.all_of(
+                [
+                    Filter.by_property("descr_prod").not_equal(
+                        "Prodotto non in anagrafica"
+                    ),
+                    Filter.by_property("descr_liv1").not_equal(
+                        "Categoria non in anagrafica"
+                    ),
+                ]
+            )
 
             testo = f"{sinonimi}"
-            payload = {
-            "model": os.getenv("EMBEDDING_MODEL_NAME"),
-            "prompt": testo
-            }
+            payload = {"model": os.getenv("EMBEDDING_MODEL_NAME"), "prompt": testo}
             res = requests.post(os.getenv("EMBEDDING_MODEL_URL"), json=payload)
             query_vector = res.json()["embedding"]
 
             results = collection.query.hybrid(
-            query= testo,
-            alpha=0.5,
-            limit=4,
-            vector=query_vector,
-            return_metadata=["score"],
-            filters= filters
+                query=testo,
+                alpha=0.5,
+                limit=4,
+                vector=query_vector,
+                return_metadata=["score"],
+                filters=filters,
             )
 
             for obj in results.objects:
@@ -111,10 +105,10 @@ def semantic_search(state: GraphState) -> GraphState:
                     "descr_liv2": obj.properties.get("descr_liv2"),
                     "descr_liv3": obj.properties.get("descr_liv3"),
                     "descr_liv4": obj.properties.get("descr_liv4"),
-                    "score": obj.metadata.score
+                    "score": obj.metadata.score,
                 }
-                state['relevant_items'].append(item)
-                
-        state['user_question'] = user_question_riformulata
+                state["relevant_items"].append(item)
+
+        state["user_question"] = user_question_riformulata
         client.close()
         return state

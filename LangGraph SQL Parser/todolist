@@ -1,6 +1,6 @@
 Modificare il nome del progetto e ricreare l'env. Aggiornare l'url con il nuovo nome del readme
-Se non serve disistallare l'immagine docker di weaviate
-Quando il server sarà funzionanete creare una collezione in cui si salva tutto l'oggetto e si ricerca solo sulla descr_prod.
 Verificare se nella funzione call llm si puo ottimizzare qualcosa
 Valutare se separare in due agenti diversi semantic search
-Sistemare il codice per utilizzare il server remoto
+Valutare se inserire una appendice nella relazione contenente la struttura delle directory
+Modificare file readme per includere i nuovi file e le nuove features
+Aggiungere alla relazione il capitolo requisiti tecnici 
