@@ -8,7 +8,7 @@ from routing.choose_if_retry import choose_if_retry
 from routing.choose_if_continue import choose_if_continue
 from nodes.result_handler import result_handler
 from nodes.semantic_search import semantic_search
-
+from nodes.rewriter import rewriter
 
 def build_graph():
     """
@@ -17,7 +17,8 @@ def build_graph():
 
     graph = StateGraph(GraphState, read_next_node=True)
 
-    # aggiungi nodi
+    # dichiarazione die nodi
+    graph.add_node("rewriter",rewriter)
     graph.add_node("guard", guard)
     graph.add_node("semantic_search", semantic_search)
     graph.add_node("load_schema", load_schema)
@@ -25,35 +26,28 @@ def build_graph():
     graph.add_node("executor", executor)
     graph.add_node("result_handler", result_handler)
 
-    # entry point
-    graph.set_entry_point("guard")
-    # graph.set_entry_point("load_schema")
-    # graph.set_entry_point("semantic_search")
-
-    # collegamenti
-    # graph.add_edge("load_user_question", "load_schema")
-    # Arco CONDIZIONALE
-
+    # dichiarazione entry point
+    graph.set_entry_point("rewriter")
+    
+    # dichiarazione archi
+    graph.add_edge("rewriter","guard")
     graph.add_conditional_edges(
-        "guard",  # Da quale nodo parte
-        choose_if_continue,  # Funzione che decide il percorso
+        "guard",  # Nodo sorgente
+        choose_if_continue,  # Funzione di instradamento
         {
-            "continue": "semantic_search",  # Se ritorna "retry", torna al nodo generatore
-            "stop": END,  # Se ritorna "stop", l'esecuzione può terminare
+            "continue": "semantic_search",  # valore restituito : nome prossimo nodo
+            "stop": END,  # END è una costante del framework
         },
     )
-
     graph.add_edge("semantic_search", "load_schema")
     graph.add_edge("load_schema", "generator")
     graph.add_edge("generator", "executor")
-
-    # Arco CONDIZIONALE
     graph.add_conditional_edges(
-        "executor",  # Da quale nodo parte
-        choose_if_retry,  # Funzione che decide il percorso
+        "executor",  
+        choose_if_retry,  
         {
-            "retry": "generator",  # Se ritorna "retry", torna al nodo generatore
-            "end": "result_handler",  # Se ritorna "end", vai al nodo handler per elaborare il risultato e terminare
+            "retry": "generator", 
+            "continue": "result_handler",
         },
     )
 

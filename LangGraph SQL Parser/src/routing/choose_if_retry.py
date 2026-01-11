@@ -2,7 +2,7 @@ from typing import Literal
 from state import GraphState
 
 
-def choose_if_retry(state: GraphState) -> Literal["retry", "end"]:
+def choose_if_retry(state: GraphState) -> Literal["retry", "continue"]:
     """
     Funzione di decisione per instradare i dati nel grafo.
     Si decide il percorso tra : executor -> result_handler o executor -> generator
@@ -11,8 +11,8 @@ def choose_if_retry(state: GraphState) -> Literal["retry", "end"]:
     retry_count = state["retry_count"]
 
     if state["query_error"] is None:  # nessun errore: si può terminare
-        return "end"
+        return "continue"
     elif retry_count < 3:  # errore: si riprova a rigenerare la query
         return "retry"
     # si è raggiunto il numero massimo di correzioni: si può terminare
-    return "end"
+    return "continue"

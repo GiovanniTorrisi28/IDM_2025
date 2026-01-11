@@ -35,7 +35,7 @@ def get_clickhouse_client():
         port=port,
         username=user,
         password=password,
-        # database=database
+        database=database
     )
 
     return client
@@ -78,7 +78,7 @@ def get_table_metadata():
             "t_flag": "Codice che indica il tipo di operazione della riga di vendita (es. vendita normale, reso, annullamento)",
             "num_riga": "Numero progressivo della riga all’interno dello scontrino",
             "r_reparto_cdaplus": "Codice del reparto merceologico associato alla riga di vendita secondo la codifica CDAPLUS",
-            "r_qta_pezzi": "Quantità di pezzi acquistati per il prodotto nella specifica riga dello scontrino",
+            "r_qta_pezzi": "Quantità di pezzi acquistati per il prodotto nella specifica riga dello scontrino. (Significa che ad esempio in una transazione singola sono stati comprati 3 pacchi di pasta)",
             "r_peso": "Peso totale del prodotto acquistato nella riga (usato per prodotti venduti a peso)",
             "r_importo_lordo": "Importo lordo totale della riga di vendita, comprensivo di imposte",
             "r_imponibile": "Importo imponibile della riga di vendita, esclusa l’IVA",
@@ -91,8 +91,8 @@ def get_table_metadata():
             "descr_prod": "Descrizione testuale del prodotto; contiene il codice prodotto seguito dal nome o descrizione commerciale",
             "cod_forn": "Codice identificativo del fornitore del prodotto",
             "descr_forn": "Nome o descrizione del fornitore del prodotto",
-            "descr_liv1": "Descrizione testuale della categoria merceologica di livello 1 del prodotto",
-            "liv1": "Codice numerico della categoria merceologica di livello 1 del prodotto",
+            "descr_liv1": "Descrizione testuale della categoria merceologica di livello 1 del prodotto (es. BEVANDE)",
+            "liv1": "Codice numerico della categoria merceologica di livello 1 del prodotto (es. 0985)",
             "descr_liv2": "Descrizione testuale della categoria merceologica di livello 2 del prodotto",
             "liv2": "Codice numerico della categoria merceologica di livello 2 del prodotto",
             "descr_liv3": "Descrizione testuale della categoria merceologica di livello 3 del prodotto",
@@ -103,11 +103,10 @@ def get_table_metadata():
             "descr_tipologia": "Descrizione testuale della tipologia commerciale del prodotto",
             "cod_rep": "Codice del reparto del supermercato in cui è collocato il prodotto",
             "descr_rep": "Descrizione testuale del reparto del supermercato",
-            "rag_sociale": "Identificativo della filiale o ragione sociale del punto vendita (coincidente con il punto vendita)",
+            "rag_sociale": "Identificativo della filiale o ragione sociale del punto vendita (es. SUPERMARKET 03, SUPERMARKET 01, SUPERMARKET 02, IPERSTORE 01, IPERSTORE 02)",
             "localita": "Città in cui si trova il supermercato",
             "provincia": "Provincia in cui si trova il supermercato",
         },
-        "info per la scelta delle colonne nelle query": "i campi liv e cod contengono codici numeri come ad esempio 0987, mentre i corrispondenti campi descr sono adatti a fare ricerce su parole del linguaggio naturale",
-    }
+     }
 
     return table_metadata

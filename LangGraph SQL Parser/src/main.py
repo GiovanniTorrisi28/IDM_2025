@@ -12,7 +12,7 @@ st.write("Fai una domanda in linguaggio naturale e genererò una query SQL per t
 # Input utente
 user_question = st.text_area(
     "La tua domanda:",
-    placeholder="Es: Quanti prodotti sono stati venduti in ogni mese dell'anno 2023 ?",
+    placeholder="Es: Quanti prodotti sono stati venduti in ogni mese dell'anno 2024 ?",
     height=100,
 )
 
@@ -38,9 +38,9 @@ if st.button("Esegui Query", type="primary", use_container_width=True):
             final_state = app.invoke(initial_state)
 
             # Mostra SQL generato
-            # if final_state["is_relevant"] == True:
-            st.subheader("📝 Query SQL generata")
-            st.code(final_state["sql_query"], language="sql")
+            if final_state["is_relevant"] == True:
+              st.subheader("📝 Query SQL generata")
+              st.code(final_state["sql_query"], language="sql")
 
             # Mostra numero tentativi se > 1
             if final_state["retry_count"] >= 1 and final_state["query_error"] is None:

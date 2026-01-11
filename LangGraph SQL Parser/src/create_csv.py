@@ -9,11 +9,11 @@ load_dotenv(dotenv_path=Path(__file__).resolve().parent.parent / ".env")
 
 # connessione al client clickhouse
 client = clickhouse_connect.get_client(
-    host=os.getenv("CLICKHOUSE_HOST"),
-    port=os.getenv("CLICKHOUSE_PORT"),
-    secure=True,
-    username=os.getenv("CLICKHOUSE_USER"),
-    password=os.getenv("CLICKHOUSE_PASSWORD"),
+ host = os.getenv("CLICKHOUSE_HOST"),
+ port = os.getenv("CLICKHOUSE_PORT"),
+ secure = True,
+ username = os.getenv("CLICKHOUSE_USER"),
+ password = os.getenv("CLICKHOUSE_PASSWORD")
 )
 
 # query per raccogliere i dati
@@ -26,5 +26,7 @@ df = pd.DataFrame(result.result_rows, columns=result.column_names)
 df["descr_prod"] = df["descr_prod"].str.split(n=1).str[1]
 df["descr_prod"] = df["descr_prod"].str.rstrip()
 
-df.to_csv("collection_prodotti.csv", index=False, sep=";", quoting=3)
-print("lunghezza df = ", len(df))
+# crea il csv specificando il separatore ; e con quoting specifica di non racchiudere nessun valore tra virgolette
+df.to_csv("collection_prodotti.csv", index=False, sep=';', quoting=3)
+print("lunghezza df = ",len(df))
+
